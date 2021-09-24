@@ -2,9 +2,11 @@
 	import { VIDEO_DATA } from "../stores";
 	import { saveData } from "./video-handler";
 
+	let message;
+
 	const submitComment = (event) => {
 		const data = new FormData(event.target);
-		const comment = data.get("comment");
+		const comment = message;
 
 		const currentTime = $VIDEO_DATA.video.currentTime;
 
@@ -12,6 +14,8 @@
 			...$VIDEO_DATA.comments,
 			{ message: comment, timestamp: currentTime },
 		].sort((a, b) => a.timestamp - b.timestamp);
+
+		message = "";
 
 		saveData();
 	};
@@ -31,7 +35,7 @@
 	</div>
 
 	<form class="comment-input" on:submit|preventDefault={submitComment}>
-		<textarea name="comment" />
+		<textarea name="comment" bind:value={message} />
 		<br />
 		<button type="submit">Add comment</button>
 	</form>

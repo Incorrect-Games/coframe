@@ -14,6 +14,10 @@ export const getConfig = (videoPath) => {
 		configFile)
 }
 
+export const getRealPath = (_path) => {
+	return path.resolve(remote.app.getAppPath(), _path)
+}
+
 export const readConfig = (configPath) => {
 	if (fs.existsSync(configPath)) {
 		return JSON.parse(fs.readFileSync(configPath, "utf-8").toString());
