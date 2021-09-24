@@ -4,39 +4,33 @@
 	import Comments from "./components/Comments.svelte";
 	import VideoPlayer from "./components/VideoPlayer.svelte";
 	import FilePicker from "./components/FilePicker.svelte";
-
-	const remote = require("electron").remote;
-	const path = remote.require("path");
-	const fs = remote.require("fs");
-
-	let VIDEO_PLAYER;
-	let CONFIG_PATH;
-
-	let comments = [];
-	let videoSrc;
 </script>
 
-<main>
-	<h1>coframe</h1>
-	{#if $VIDEO_DATA.videoPath}
-		<VideoPlayer />
-		<Comments />
-	{:else}
-		<FilePicker />
-	{/if}
-</main>
+{#if $VIDEO_DATA.videoPath}
+	<div class="layout">
+		<div class="header">
+			<h1>coframe</h1>
+		</div>
+		<div class="content">
+			<VideoPlayer />
+			<Comments />
+		</div>
+	</div>
+{:else}
+	<FilePicker />
+{/if}
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+	.layout {
+		display: flex;
+		height: 100%;
+		width: 100%;
+		flex-direction: column;
 	}
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	.layout .content {
+		height: 100%;
+		width: 100%;
+		display: flex;
 	}
 </style>

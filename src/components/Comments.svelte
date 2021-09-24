@@ -17,16 +17,55 @@
 	};
 </script>
 
-<div class="comments">
-	<h2>Comment Section</h2>
+<div class="comment-section">
+	<div class="comments">
+		{#each $VIDEO_DATA.comments as comment}
+			<li class="comment">
+				<div class="author">
+					{comment.author || "Anonymous"}
+					<span>{comment.timestamp}</span>
+				</div>
+				<div class="message">{comment.message}</div>
+			</li>
+		{/each}
+	</div>
 
-	<form on:submit|preventDefault={submitComment}>
+	<form class="comment-input" on:submit|preventDefault={submitComment}>
 		<textarea name="comment" />
 		<br />
 		<button type="submit">Add comment</button>
 	</form>
-
-	{#each $VIDEO_DATA.comments as comment}
-		<li>{comment.message} <span>{comment.timestamp}</span></li>
-	{/each}
 </div>
+
+<style>
+	.comment-section {
+		width: 450px;
+		padding: 35px 2.5%;
+		background-color: var(--color-background-darker);
+		position: relative;
+		height: 100%;
+	}
+
+	.comment-section .comment-input {
+		position: absolute;
+		bottom: 0;
+		padding: 35px 0;
+		height: auto;
+	}
+
+	.comment-section .comments {
+		height: calc(100% - 55px - 30px);
+		overflow-y: scroll;
+	}
+
+	.comment-section .comments .comment {
+		list-style: none;
+		padding: 15px;
+		background-color: var(--color-background-lighter);
+		margin-bottom: 30px;
+	}
+
+	.comment-section .comments .comment:last-of-type {
+		margin-bottom: 0;
+	}
+</style>

@@ -2,5 +2,20 @@
 	import { VIDEO_DATA } from "../stores.js";
 </script>
 
-<!-- svelte-ignore a11y-media-has-caption -->
-<video src={$VIDEO_DATA.videoPath} bind:this={$VIDEO_DATA.video} controls />
+<div class="video">
+	<!-- svelte-ignore a11y-media-has-caption -->
+	<video src={$VIDEO_DATA.videoPath} bind:this={$VIDEO_DATA.video} controls />
+</div>
+
+<style>
+	.video {
+		width: 100%;
+		height: 100%;
+		display: grid;
+		place-items: center;
+	}
+
+	.video video {
+		width: 100%;
+	}
+</style>
