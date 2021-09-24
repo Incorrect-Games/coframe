@@ -1,28 +1,54 @@
 <script>
 	const remote = require("electron").remote;
 	const path = remote.require("path");
+	const fs = remote.require("fs");
 
 	let VIDEO_PLAYER;
+	let CONFIG_PATH;
 
+	let comments = [];
 	let videoSrc;
+
+	const saveData = () => {
+		const data = JSON.stringify(comments);
+		fs.writeFile(CONFIG_PATH, data, (err) => {
+			if (err) {
+				console.log("unlucky can't write to file");
+				return;
+			}
+
+			console.log("yoo saved");
+		});
+	};
+
 	const changeVideo = (event) => {
 		videoSrc = event.target?.files[0].path;
 
 		const configFile =
 			path.parse(event.target?.files[0].path).name + ".json";
-		const configPath = path.join(path.dirname(videoSrc), configFile);
+		CONFIG_PATH = path.join(path.dirname(videoSrc), configFile);
 
-		// Look for JSON file relative to video path.
-		console.log(configPath);
+		if (fs.existsSync(CONFIG_PATH)) {
+			const _comments = fs.readFile(CONFIG_PATH, "utf-8", (err, data) => {
+				if (err) {
+					console.log("unlucky can't read that json file");
+				}
+				comments = [...comments, JSON.parse(data.toString())][0];
+			});
+		}
 	};
 
-	let comments = [];
 	const submitComment = (event) => {
 		const data = new FormData(event.target);
 		const comment = data.get("comment");
 		const currentTime = VIDEO_PLAYER.currentTime;
 
-		comments = [...comments, { message: comment, timestamp: currentTime }];
+		comments = [
+			...comments,
+			{ message: comment, timestamp: currentTime },
+		].sort((a, b) => a.timestamp - b.timestamp);
+
+		saveData();
 	};
 </script>
 
