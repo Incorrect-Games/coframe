@@ -1,4 +1,10 @@
 <script>
+	import { VIDEO_DATA } from "./stores.js";
+
+	import Comments from "./components/Comments.svelte";
+	import VideoPlayer from "./components/VideoPlayer.svelte";
+	import FilePicker from "./components/FilePicker.svelte";
+
 	const remote = require("electron").remote;
 	const path = remote.require("path");
 	const fs = remote.require("fs");
@@ -8,74 +14,16 @@
 
 	let comments = [];
 	let videoSrc;
-
-	const saveData = () => {
-		const data = JSON.stringify(comments);
-		fs.writeFile(CONFIG_PATH, data, (err) => {
-			if (err) {
-				console.log("unlucky can't write to file");
-				return;
-			}
-
-			console.log("yoo saved");
-		});
-	};
-
-	const changeVideo = (event) => {
-		videoSrc = event.target?.files[0].path;
-
-		const configFile =
-			path.parse(event.target?.files[0].path).name + ".json";
-		CONFIG_PATH = path.join(path.dirname(videoSrc), configFile);
-
-		if (fs.existsSync(CONFIG_PATH)) {
-			const _comments = fs.readFile(CONFIG_PATH, "utf-8", (err, data) => {
-				if (err) {
-					console.log("unlucky can't read that json file");
-				}
-				comments = [...comments, JSON.parse(data.toString())][0];
-			});
-		}
-	};
-
-	const submitComment = (event) => {
-		const data = new FormData(event.target);
-		const comment = data.get("comment");
-		const currentTime = VIDEO_PLAYER.currentTime;
-
-		comments = [
-			...comments,
-			{ message: comment, timestamp: currentTime },
-		].sort((a, b) => a.timestamp - b.timestamp);
-
-		saveData();
-	};
 </script>
 
 <main>
-	<p>{videoSrc}</p>
-	<div>
-		<input type="file" on:change={changeVideo} />
-		<br />
-		<!-- svelte-ignore a11y-media-has-caption -->
-		<video bind:this={VIDEO_PLAYER} controls src={videoSrc} />
-	</div>
-	<br />
-	<br />
-	<div>
-		<form on:submit|preventDefault={submitComment}>
-			<textarea name="comment" />
-			<br />
-			<button type="submit">Add comment</button>
-		</form>
-	</div>
-	{#each comments as comment}
-		<li on:click={() => (VIDEO_PLAYER.currentTime = comment.timestamp)}>
-			<span>{comment.timestamp}</span>
-			{comment.message}
-		</li>
-	{/each}
-	<div />
+	<h1>coframe</h1>
+	{#if $VIDEO_DATA.videoPath}
+		<VideoPlayer />
+		<Comments />
+	{:else}
+		<FilePicker />
+	{/if}
 </main>
 
 <style>
