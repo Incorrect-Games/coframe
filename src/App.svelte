@@ -2,6 +2,7 @@
 	import { VIDEO_DATA } from "./stores.js";
 
 	import Comments from "./components/Comments.svelte";
+	import CommentInput from "./components/Comments/CommentInput.svelte";
 	import VideoPlayer from "./components/VideoPlayer.svelte";
 	import FilePicker from "./components/FilePicker.svelte";
 </script>
@@ -10,13 +11,16 @@
 	<div class="layout">
 		<div class="header">
 			<button class="text back-button" on:click={() => ($VIDEO_DATA.videoPath = null)}>
-				<span class="material-icons-outlined"> arrow_back </span>
+				<span class="material-icons-outlined"> chevron_left </span>
 			</button>
 			<h2>{$VIDEO_DATA.videoName}</h2>
 			<span class="path">{$VIDEO_DATA.videoPath}</span>
 		</div>
 		<div class="content">
-			<VideoPlayer />
+			<div>
+				<VideoPlayer />
+				<CommentInput />
+			</div>
 			<Comments />
 		</div>
 	</div>
@@ -41,8 +45,8 @@
 	}
 
 	.header .path {
-		font-size: 14px;
-		opacity: 0.4;
+		font-size: 0.8rem;
+		opacity: 0.6;
 	}
 
 	.header > * {
@@ -52,5 +56,15 @@
 	.content {
 		height: calc(100% - 64px);
 		display: flex;
+	}
+
+	.content div {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+	}
+
+	h2 {
+		font-size: 1.2rem;
 	}
 </style>

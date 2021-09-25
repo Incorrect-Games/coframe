@@ -12,9 +12,7 @@
 		$VIDEO_DATA.configPath = videoHandler.getConfig(videoPath);
 
 		try {
-			$VIDEO_DATA.comments = videoHandler.readConfig(
-				$VIDEO_DATA.configPath
-			);
+			$VIDEO_DATA.comments = videoHandler.readConfig($VIDEO_DATA.configPath);
 		} catch (err) {
 			console.log(err);
 		}
@@ -25,11 +23,9 @@
 	};
 
 	// Enabled for debugging
-	//onMount(() => {
-	//	changeVideo(
-	//		videoHandler.getRealPath("src/assets/videos/examples/onion.mp4")
-	//	);
-	//});
+	onMount(() => {
+		changeVideo(videoHandler.getRealPath("src/assets/videos/examples/onion.mp4"));
+	});
 </script>
 
 <input type="file" on:change={onChange} />

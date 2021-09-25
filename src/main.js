@@ -1,3 +1,5 @@
+import 'bytemd/dist/index.min.css'
+
 import App from './App.svelte';
 
 const app = new App({

@@ -8,17 +8,24 @@
 }
 
 :root {
-	--color-background-primary: #141416;
+	--color-background-primary: #000;
 	--color-background-lighter: #23262f;
 	--color-background-darker: #0d0d0e;
 
-	--color-primary:#643ec4;
+	--color-primary:#f4a9f9;
 
-	--color-text-primary:#fcfcfd;
-	--color-text-secondary:#c1c1d1;
+	--color-button-secondary:#1c1c1c;
+	--color-button-border:#1c1c1c;
+	--color-button-secondary-hover: #412e42;
+	--color-button-primary-hover: #fbbcff;
 
-	--scrollbar-auto-thumb: #0e0e11;
-	--scrollbar-auto-track: #111114;
+	--color-text-primary:#fff;
+	--color-text-secondary:#8e8e8e;
+
+	--scrollbar-auto-thumb: #2c2c2c;
+	--scrollbar-auto-track: #181818;
+
+	--font: 'Montserrat', sans-serif;
 }
 
 ::-webkit-scrollbar {
@@ -58,13 +65,13 @@ html, body {
 	position: relative;
 	width: 100%;
 	height: 100%;
-	font-family: 'Montserrat', sans-serif;
+	font-family: var(--font);
 }
 
 body {
 	background-color:var(--color-background-primary);
 	color:var(--color-text-secondary);
-	overflow-y: scroll;
+	overflow-y: hidden;
 	font-size:18px;
 }
 
@@ -84,8 +91,39 @@ button.text {
 	cursor:pointer;
 }
 
+button.bttn {
+	display:flex;
+	font-size:0.9rem;
+	background-color:var(--color-button-secondary);
+	padding:6px 12px;
+	border:none;
+	border-radius: 4px;
+	font-weight:600;
+	transition: background .2s;
+	cursor:pointer;
+}
+
+button.bttn:hover {
+	background-color:var(--color-button-secondary-hover);
+}
+
+button.bttn.bttn-primary:hover {
+	background-color:var(--color-button-primary-hover);
+}
+
+button.bttn.bttn-primary {
+	background-color:var(--color-primary);
+	color:#18031b;
+}
+
+
+button.bttn-icon span {
+	padding-right:5px;
+	font-size:.9rem;
+}
+
 input, button, textarea {
-	font-family: 'Montserrat', sans-serif;
+	font-family: var(--font);
 }
 
 textarea, input {

@@ -1,35 +1,11 @@
 <script>
 	import { VIDEO_DATA } from "../stores";
-	import { saveData } from "../modules/video-handler";
 
 	import dayjs from "dayjs";
 	import relativeTime from "dayjs/plugin/relativeTime";
 	import duration from "dayjs/plugin/duration";
 	dayjs.extend(duration);
 	dayjs.extend(relativeTime);
-
-	let message;
-
-	const submitComment = () => {
-		const comment = message;
-
-		const videostamp = $VIDEO_DATA.video.currentTime;
-
-		$VIDEO_DATA.comments = [...$VIDEO_DATA.comments, { message: comment, videostamp, timestamp: dayjs() }].sort((a, b) => (dayjs(b.timestamp).isAfter(a.timestamp) ? 1 : -1));
-		console.log($VIDEO_DATA.comments);
-
-		saveData();
-	};
-
-	const receiveInput = (event) => {
-		let char = typeof event !== "undefined" ? event.keyCode : event.which;
-		if (char == 13 && !event.shiftKey) {
-			event.preventDefault();
-			submitComment();
-
-			message = "";
-		}
-	};
 </script>
 
 <div class="comment-section">
@@ -46,13 +22,9 @@
 						{dayjs.duration(comment.videostamp * 1000).format("m:ss")}
 					</button>
 				</div>
-				<div class="message">{comment.message}</div>
+				<div class="message">{@html comment.message.html}</div>
 			</li>
 		{/each}
-	</div>
-
-	<div class="comment-input">
-		<textarea name="comment" bind:value={message} on:keydown={receiveInput} placeholder="Add a comment" />
 	</div>
 </div>
 
@@ -67,26 +39,15 @@
 		border-left: 2px solid var(--color-background-darker);
 	}
 
-	.comment-input {
-		padding-top: 35px;
-		background-color: var(--color-background-primary);
-		width: 100%;
-	}
-
-	.comment-input textarea {
-		width: 100%;
-		min-height: 120px;
-	}
-
 	.comments {
-		height: calc(100% - 55px - 30px);
+		height: 100%;
 		overflow-y: scroll;
 	}
 
 	.comments .comment {
 		list-style: none;
 		margin-bottom: 30px;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+		border-bottom: 2px solid var(--color-background-darker);
 	}
 
 	.comments .comment:last-of-type {

@@ -10,7 +10,7 @@
 <style>
 	.video {
 		width: 100%;
-		height: 100%;
+		height: calc(100% - 300px);
 		background-color: black;
 	}
 
@@ -19,4 +19,3 @@
 		height: 100%;
 	}
 </style>
-[]
