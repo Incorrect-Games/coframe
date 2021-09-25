@@ -2,13 +2,14 @@
 	import { onMount } from "svelte";
 
 	import { VIDEO_DATA } from "../stores.js";
-	import * as videoHandler from "./video-handler";
+	import * as videoHandler from "../modules/video-handler";
 
 	const changeVideo = (videoPath) => {
 		$VIDEO_DATA.videoPath = videoPath;
+		$VIDEO_DATA.videoName = videoPath.split(/[\\/]+/).pop();
 
 		// When video updates, update comment store.
-		$VIDEO_DATA.configPath = videoHandler.getConfig($VIDEO_DATA.videoPath);
+		$VIDEO_DATA.configPath = videoHandler.getConfig(videoPath);
 
 		try {
 			$VIDEO_DATA.comments = videoHandler.readConfig(

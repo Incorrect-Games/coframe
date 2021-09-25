@@ -5,9 +5,13 @@ const remote = require("electron").remote;
 const path = remote.require("path");
 const fs = remote.require("fs");
 
+export const getName = (videoPath) => {
+	return path.parse(videoPath).name;
+}
+
 export const getConfig = (videoPath) => {
 	const configFile =
-		path.parse(videoPath).name + ".json";
+		getName(videoPath) + ".json";
 
 	return path.join(
 		path.dirname(videoPath),
