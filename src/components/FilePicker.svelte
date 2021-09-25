@@ -25,11 +25,11 @@
 	};
 
 	// Enabled for debugging
-	onMount(() => {
-		changeVideo(
-			videoHandler.getRealPath("src/assets/videos/examples/onion.mp4")
-		);
-	});
+	//onMount(() => {
+	//	changeVideo(
+	//		videoHandler.getRealPath("src/assets/videos/examples/onion.mp4")
+	//	);
+	//});
 </script>
 
 <input type="file" on:change={onChange} />
