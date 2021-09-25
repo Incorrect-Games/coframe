@@ -1,7 +1,6 @@
 <script>
 	import { VIDEO_DATA } from "../stores";
 	import { saveData } from "../modules/video-handler";
-	import { formatDisplayTime } from "../modules/util";
 
 	import dayjs from "dayjs";
 	import relativeTime from "dayjs/plugin/relativeTime";
@@ -17,10 +16,19 @@
 		const videostamp = $VIDEO_DATA.video.currentTime;
 
 		$VIDEO_DATA.comments = [...$VIDEO_DATA.comments, { message: comment, videostamp, timestamp: dayjs() }].sort((a, b) => (dayjs(b.timestamp).isAfter(a.timestamp) ? 1 : -1));
-
-		message = "";
+		console.log($VIDEO_DATA.comments);
 
 		saveData();
+	};
+
+	const receiveInput = (event) => {
+		let char = typeof event !== "undefined" ? event.keyCode : event.which;
+		if (char == 13 && !event.shiftKey) {
+			event.preventDefault();
+			submitComment();
+
+			message = "";
+		}
 	};
 </script>
 
@@ -34,7 +42,7 @@
 				</div>
 				<div class="videostamp">
 					<button class="text" on:click={() => ($VIDEO_DATA.video.currentTime = comment.videostamp)}>
-						<span class="material-icons-outlined"> timer </span>
+						<!--span class="material-icons-outlined"> timer </span>-->
 						{dayjs.duration(comment.videostamp * 1000).format("m:ss")}
 					</button>
 				</div>
@@ -43,29 +51,31 @@
 		{/each}
 	</div>
 
-	<form class="comment-input" on:submit|preventDefault={submitComment}>
-		<textarea name="comment" bind:value={message} />
-		<br />
-		<button type="submit">Add comment</button>
-	</form>
+	<div class="comment-input">
+		<textarea name="comment" bind:value={message} on:keydown={receiveInput} placeholder="Add a comment" />
+	</div>
 </div>
 
 <style>
 	.comment-section {
-		width: 450px;
-		padding: 35px 2.5%;
 		display: flex;
 		flex-direction: column;
+		justify-content: flex-end;
+		width: 500px;
+		padding: 35px 20px;
 		height: 100%;
 		border-left: 2px solid var(--color-background-darker);
 	}
 
 	.comment-input {
-		margin-bottom: 0;
-		padding: 35px 0;
-		height: auto;
+		padding-top: 35px;
 		background-color: var(--color-background-primary);
 		width: 100%;
+	}
+
+	.comment-input textarea {
+		width: 100%;
+		min-height: 120px;
 	}
 
 	.comments {
@@ -87,17 +97,21 @@
 		margin-top: 10px;
 		margin-bottom: 30px;
 		padding-right: 15px;
+		white-space: pre-line;
+		font-size: 0.9rem;
 	}
 
 	.comment .author {
 		font-weight: 600;
+		color: var(--color-text-primary);
 	}
 
 	.comment .author span {
-		font-size: 14px;
+		font-size: 0.9rem;
 		font-weight: 400;
 		padding-left: 10px;
 		opacity: 0.4;
+		color: var(--color-text-secondary);
 	}
 
 	.comment .videostamp button {
@@ -105,7 +119,7 @@
 		font-weight: 600;
 		margin-top: 5px;
 		display: flex;
-		font-size: 14px;
+		font-size: 0.9rem;
 	}
 
 	.comment .videostamp button span {
