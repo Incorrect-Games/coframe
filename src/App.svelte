@@ -5,23 +5,27 @@
 	import CommentInput from "./components/Comments/CommentInput.svelte";
 	import VideoPlayer from "./components/VideoPlayer.svelte";
 	import FilePicker from "./components/FilePicker.svelte";
+	import Frame from "./components/ui/Frame.svelte";
 </script>
 
 {#if $VIDEO_DATA.videoPath}
 	<div class="layout">
-		<div class="header">
-			<button class="text back-button" on:click={() => ($VIDEO_DATA.videoPath = null)}>
-				<span class="material-icons-outlined"> chevron_left </span>
-			</button>
-			<h2>{$VIDEO_DATA.videoName}</h2>
-			<span class="path">{$VIDEO_DATA.videoPath}</span>
-		</div>
-		<div class="content">
-			<div>
-				<VideoPlayer />
-				<CommentInput />
+		<Frame />
+		<div id="app">
+			<div class="header">
+				<button class="text back-button" on:click={() => ($VIDEO_DATA.videoPath = null)}>
+					<span class="material-icons-outlined"> chevron_left </span>
+				</button>
+				<h2>{$VIDEO_DATA.videoName}</h2>
+				<span class="path">{$VIDEO_DATA.videoPath}</span>
 			</div>
-			<Comments />
+			<div class="content">
+				<div>
+					<VideoPlayer />
+					<CommentInput />
+				</div>
+				<Comments />
+			</div>
 		</div>
 	</div>
 {:else}
@@ -29,6 +33,10 @@
 {/if}
 
 <style>
+	#app {
+		height: calc(100% - 18px);
+		width: 100%;
+	}
 	.layout {
 		display: flex;
 		height: 100%;

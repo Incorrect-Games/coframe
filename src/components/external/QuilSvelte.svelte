@@ -1,5 +1,7 @@
 <script context="module">
 	import { writable } from "svelte/store";
+
+	/* svelte-ignore unused-export-let */
 	export let content = writable({ html: "", text: "" });
 </script>
 
